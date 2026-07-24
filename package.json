@@ -1,5 +1,5 @@
 {
-  "name": "sieve",
+  "name": "sieve-npm",
   "version": "0.1.0",
   "description": "A zero-dependency npm registry proxy with an explicit package allowlist.",
   "type": "module",
