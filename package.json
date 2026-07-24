@@ -1,11 +1,16 @@
 {
   "name": "sieve-npm",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A zero-dependency npm registry proxy with an explicit package allowlist.",
   "type": "module",
   "bin": {
     "sieve": "./bin/sieve.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moshmodo/sieve"
+  },
+  "homepage": "https://github.com/moshmodo/sieve#readme",
   "engines": {
     "node": ">=18"
   },
