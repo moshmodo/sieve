@@ -1,0 +1,16 @@
+{
+  "name": "sieve",
+  "version": "0.1.0",
+  "description": "A zero-dependency npm registry proxy with an explicit package allowlist.",
+  "type": "module",
+  "bin": {
+    "sieve": "./bin/sieve.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node bin/sieve.js start",
+    "test": "node --test"
+  }
+}
