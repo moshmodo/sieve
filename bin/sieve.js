@@ -13,16 +13,23 @@ const [command, packageName] = args;
 
 const npmCommand = process.platform === 'win32' ? 'npm.cmd' : 'npm';
 const packageRoot = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
-const npmSpawnOptions = {
-  stdio: 'inherit',
-  // npm.cmd is a Windows command script, not a directly executable binary.
-  // It must be launched through the shell or Node fails with spawn EINVAL.
-  shell: process.platform === 'win32'
-};
+
+function spawnNpm(args, options = {}) {
+  if (process.platform === 'win32') {
+    // npm.cmd is a Windows command script. Invoke cmd.exe explicitly instead
+    // of using shell:true, which makes Node concatenate arguments and emits
+    // DEP0190 on recent Node versions.
+    return spawn(process.env.ComSpec || 'cmd.exe', ['/d', '/s', '/c', npmCommand, ...args], {
+      stdio: 'inherit',
+      ...options
+    });
+  }
+  return spawn(npmCommand, args, { stdio: 'inherit', ...options });
+}
 
 function runNpm(args) {
   return new Promise((resolve, reject) => {
-    const child = spawn(npmCommand, args, npmSpawnOptions);
+    const child = spawnNpm(args);
     child.once('error', reject);
     child.once('close', (code, signal) => {
       if (code === 0) resolve({ code, signal });
@@ -49,7 +56,7 @@ async function startWithNpmRegistry() {
 
   try {
     await runNpm(['config', 'set', 'registry', registry]);
-    const child = spawn(npmCommand, ['start'], { ...npmSpawnOptions, cwd: packageRoot });
+    const child = spawnNpm(['start'], { cwd: packageRoot });
     let stopping = false;
 
     const stop = signal => {
