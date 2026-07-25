@@ -1,5 +1,13 @@
 # SIEVE
 
+```                      
+       ▀▀                  
+ ▄██▀█ ██ ▄█▀█▄▀█▄ ██▀▄█▀█▄
+ ▀███▄ ██ ██▄█▀ ██▄██ ██▄█▀
+█▄▄██▀▄██▄▀█▄▄▄  ▀█▀ ▄▀█▄▄▄
+                           
+```
+
 SIEVE is a local, zero-dependency npm registry proxy. It helps keep dependency
 choices explicit by checking packages against the allowlist published in
 [`moshmodo/zero-dep-npm-registry`](https://github.com/moshmodo/zero-dep-npm-registry/blob/main/registry.json).
