@@ -11,10 +11,16 @@ const args = process.argv.slice(2);
 const [command, packageName] = args;
 
 const npmCommand = process.platform === 'win32' ? 'npm.cmd' : 'npm';
+const npmSpawnOptions = {
+  stdio: 'inherit',
+  // npm.cmd is a Windows command script, not a directly executable binary.
+  // It must be launched through the shell or Node fails with spawn EINVAL.
+  shell: process.platform === 'win32'
+};
 
 function runNpm(args) {
   return new Promise((resolve, reject) => {
-    const child = spawn(npmCommand, args, { stdio: 'inherit' });
+    const child = spawn(npmCommand, args, npmSpawnOptions);
     child.once('error', reject);
     child.once('close', (code, signal) => {
       if (code === 0) resolve({ code, signal });
@@ -41,7 +47,7 @@ async function startWithNpmRegistry() {
 
   try {
     await runNpm(['config', 'set', 'registry', registry]);
-    const child = spawn(npmCommand, ['start'], { stdio: 'inherit' });
+    const child = spawn(npmCommand, ['start'], npmSpawnOptions);
     let stopping = false;
 
     const stop = signal => {
