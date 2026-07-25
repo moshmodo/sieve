@@ -29,10 +29,49 @@ package to the local allowlist, and rerun npm.
 
 ## Quick start
 
-From this repository:
+There are two primary ways to run SIEVE:
+
+### 1. Recommended: Using `npx` (Easiest for quick use and testing)
+
+This method downloads and runs the latest published version of SIEVE and automatically configures your npm client to use it. It also restores npm's default registry when SIEVE exits.
+
+```sh
+npx sieve
+```
+
+This command will start SIEVE and set your npm registry to `http://127.0.0.1:4873` (or the configured `SIEVE_HOST` and `SIEVE_PORT`). You can then run your npm commands as usual in a separate terminal:
+
+```sh
+npm install <package-name>
+```
+
+When SIEVE exits, your npm registry will be automatically reset to `https://registry.npmjs.org/`.
+
+### 2. For Local Development: Running from the Repository
+
+If you have cloned this repository and want to run SIEVE directly from your local copy (e.g., to test changes you've made), use the `npm start` command.
 
 ```sh
 npm start
+```
+
+This command starts the SIEVE proxy but **does not** automatically configure your npm client. You will need to manually set the registry in a separate terminal:
+
+```sh
+npm config set registry http://127.0.0.1:4873
+```
+
+After starting SIEVE with `npm start` and configuring your npm registry, you can install packages:
+
+```sh
+npm install <package-name>
+```
+
+**Important:** Remember to restore your npm registry to the public one when you are finished:
+
+```sh
+npm config delete registry
+# or: npm config set registry https://registry.npmjs.org/
 ```
 
 In another terminal, configure npm to use the local proxy:
