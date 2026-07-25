@@ -1,6 +1,6 @@
 {
   "name": "sieve-npm",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "A zero-dependency npm registry proxy with an explicit package allowlist.",
   "type": "module",
   "bin": {
