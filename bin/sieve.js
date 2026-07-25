@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { spawn } from 'node:child_process';
 import { settings } from '../src/config.js';
 import { loadAllowlist, readLocalAllowlist, updateLocalAllowlist } from '../src/allowlist.js';
@@ -11,6 +12,7 @@ const args = process.argv.slice(2);
 const [command, packageName] = args;
 
 const npmCommand = process.platform === 'win32' ? 'npm.cmd' : 'npm';
+const packageRoot = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const npmSpawnOptions = {
   stdio: 'inherit',
   // npm.cmd is a Windows command script, not a directly executable binary.
@@ -47,7 +49,7 @@ async function startWithNpmRegistry() {
 
   try {
     await runNpm(['config', 'set', 'registry', registry]);
-    const child = spawn(npmCommand, ['start'], npmSpawnOptions);
+    const child = spawn(npmCommand, ['start'], { ...npmSpawnOptions, cwd: packageRoot });
     let stopping = false;
 
     const stop = signal => {
