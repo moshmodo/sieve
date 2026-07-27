@@ -34,6 +34,8 @@ reported in structured logs. A proxy cannot reliably pause an `npm install` and
 ask an interactive question, so the workflow is: inspect the log, decide, add a
 package to the local allowlist, and rerun npm.
 
+![Police officer](./media/images/police-officer.png)
+
 ## Quick start
 
 There are two primary ways to run SIEVE:
